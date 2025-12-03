@@ -8,11 +8,17 @@ namespace DomainLayer.Models
 {
     public class User
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string? UserName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
+
         public string? UserEmail { get; set; }
+        public string PhoneNumber { get; set; } = default!;
+
         public string PasswordHash { get; set; } = null!;
 
-        public ICollection<TodoItem> ToDoList { get; set; } = new List<TodoItem>();
+        public ICollection<Case> AssignedCases { get; set; } = new List<Case>();
     }
 }

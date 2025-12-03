@@ -1,5 +1,7 @@
 
+using Api.Services;
 using ApplicationLayer;
+using ApplicationLayer.Interfaces;
 using InfrastructureLayer;
 using InfrastructureLayer.Extensions;
 
@@ -16,6 +18,8 @@ namespace ApiLayer
             builder.Services.AddControllers();
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
