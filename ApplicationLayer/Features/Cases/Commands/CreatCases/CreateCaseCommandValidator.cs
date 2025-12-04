@@ -23,6 +23,18 @@ namespace ApplicationLayer.Features.Cases.Commands.CreateCase
                 .GreaterThan(0)
                 .When(x => x.AssignedToUserId.HasValue)
                 .WithMessage("AssignedToUserId must be a valid user ID.");
+
+
+            RuleFor(x => x.TagIds)
+               .NotNull().WithMessage("TagIds cannot be null.");
+
+            RuleForEach(x => x.TagIds)
+                .GreaterThan(0)
+                .WithMessage("Each Tag ID must be a positive number.");
+
+            RuleFor(x => x.TagIds)
+                .Must(ids => ids.Distinct().Count() == ids.Count)
+                .WithMessage("TagIds cannot contain duplicate values.");
         }
     }
 }

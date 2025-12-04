@@ -6,6 +6,9 @@
         public string Content { get; set; } = default!;
         public DateTime CreatedAt { get; set; }
 
+        public int CreatedByUserId { get; set; }
+        public User CreatedByUser { get; set; } = default!;
+
         public int CaseId { get; set; }
         public Case Case { get; set; } = default!;
     }

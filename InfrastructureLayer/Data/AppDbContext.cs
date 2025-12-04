@@ -85,8 +85,15 @@ namespace InfrastructureLayer.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
+            modelBuilder.Entity<CaseNote>()
+                .HasOne(n => n.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(n => n.CreatedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             // -------------------------------
-            // Optional: Field Limits
+            //  Field Limits
             // -------------------------------
             modelBuilder.Entity<Case>()
                 .Property(c => c.Title)
@@ -95,6 +102,8 @@ namespace InfrastructureLayer.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.UserEmail)
                 .HasMaxLength(200);
+
+
         }
     }
 }

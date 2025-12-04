@@ -21,6 +21,18 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
             RuleFor(x => x.Status)
                 .IsInEnum()
                 .WithMessage("Invalid status value.");
+
+            // ✅ Validate TagIds
+            RuleFor(x => x.TagIds)
+                .NotNull().WithMessage("TagIds list cannot be null.");
+
+            RuleForEach(x => x.TagIds)
+                .GreaterThan(0)
+                .WithMessage("Tag ID must be a positive number.");
+
+            RuleFor(x => x.TagIds)
+                .Must(ids => ids.Distinct().Count() == ids.Count)
+                .WithMessage("TagIds cannot contain duplicate values.");
         }
     }
 }

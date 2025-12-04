@@ -11,16 +11,16 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
     public class UpdateCaseCommandHandler
         : IRequestHandler<UpdateCaseCommand, OperationResult<CaseDto>>
     {
-        private readonly IGenericRepository<Case> _repo;
+        private readonly ICaseRepository _caseRepo;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUser;
 
         public UpdateCaseCommandHandler(
-            IGenericRepository<Case> repo,
+            ICaseRepository caseRepo,
             IMapper mapper,
             ICurrentUserService currentUser)
         {
-            _repo = repo;
+            _caseRepo = caseRepo;
             _mapper = mapper;
             _currentUser = currentUser;
         }
@@ -30,31 +30,35 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
             if (_currentUser.UserId == 0)
                 return OperationResult<CaseDto>.Failure("Unauthorized: User not authenticated.");
 
-            var existing = await _repo.GetByIdAsync(request.Id);
-            if (!existing.IsSuccess)
-                return OperationResult<CaseDto>.Failure("Case not found");
+            //  Load case WITH all details (tags, users, notes…)
+            var entity = await _caseRepo.GetCaseWithDetailsAsync(request.Id);
 
-            var entity = existing.Data!;
+            if (entity == null)
+                return OperationResult<CaseDto>.Failure("Case not found.");
 
+            // Update fields
             entity.Title = request.Title;
             entity.Description = request.Description;
             entity.Status = request.Status;
             entity.UpdatedAt = DateTime.UtcNow;
             entity.UpdatedByUserId = _currentUser.UserId;
 
+            // Update Tags
             entity.CaseTags.Clear();
 
             foreach (var tagId in request.TagIds)
             {
-                entity.CaseTags.Add(new CaseTag { TagId = tagId });
+                entity.CaseTags.Add(new CaseTag { TagId = tagId, CaseId = entity.Id });
             }
 
-            var result = await _repo.UpdateAsync(entity, cancellationToken);
+            // Save changes
+            var result = await _caseRepo.UpdateAsync(entity, cancellationToken);
 
             if (!result.IsSuccess)
                 return OperationResult<CaseDto>.Failure(result.ErrorMessage!);
 
-            return OperationResult<CaseDto>.Success(_mapper.Map<CaseDto>(result.Data!));
+            var dto = _mapper.Map<CaseDto>(entity);
+            return OperationResult<CaseDto>.Success(dto);
         }
     }
 }

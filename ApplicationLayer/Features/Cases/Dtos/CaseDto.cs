@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationLayer.Features.CaseNotes.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,7 @@ namespace ApplicationLayer.Features.Cases.Dtos
         public string? AssignedToUserName { get; set; }
         public string Status { get; set; } = default!;
         public List<string> Tags { get; set; } = new();
+        public List<CaseNoteDto> Notes { get; set; } = new();
+
     }
 }

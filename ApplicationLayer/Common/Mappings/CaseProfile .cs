@@ -41,6 +41,11 @@ namespace ApplicationLayer.Common.Mappings
                     config => config.MapFrom(source =>
                         source.CaseTags.Select(ct => ct.Tag.Name).ToList()
                     )
+                )
+
+                .ForMember(
+                    dest => dest.Notes,
+                    opt => opt.MapFrom(src => src.Notes)
                 );
 
         }
