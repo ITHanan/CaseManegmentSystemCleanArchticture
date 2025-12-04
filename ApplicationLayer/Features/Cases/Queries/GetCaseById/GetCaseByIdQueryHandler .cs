@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.Features.Cases.Dtos;
 using ApplicationLayer.Features.Cases.Queries.GetCaseById;
+using ApplicationLayer.Interfaces;
 using AutoMapper;
 using DomainLayer.Common;
 using MediatR;

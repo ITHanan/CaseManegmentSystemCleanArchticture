@@ -34,7 +34,15 @@ namespace ApplicationLayer.Common.Mappings
                             ? $"{source.AssignedTo.FirstName ?? ""} {source.AssignedTo.LastName ?? ""}".Trim()
                             : null
                     )
+                )
+
+                .ForMember(
+                    dto => dto.Tags,
+                    config => config.MapFrom(source =>
+                        source.CaseTags.Select(ct => ct.Tag.Name).ToList()
+                    )
                 );
+
         }
     }
 }

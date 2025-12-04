@@ -30,6 +30,8 @@ public class CreateCaseCommandHandler
             return OperationResult<CaseDto>.Failure("Unauthorized: user must be logged in.");
         }
 
+
+      
         var entity = new Case
         {
             Title = request.Title,
@@ -40,6 +42,14 @@ public class CreateCaseCommandHandler
             CreatedAt = DateTime.UtcNow,
             Status = CaseStatus.Open
         };
+
+        if (request.TagIds != null)
+        {
+            foreach (var tagId in request.TagIds)
+            {
+                entity.CaseTags.Add(new CaseTag { TagId = tagId });
+            }
+        }
 
         // Save the new Case
         var result = await _caseRepository.AddAsync(entity, cancellationToken);

@@ -40,7 +40,14 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
             entity.Description = request.Description;
             entity.Status = request.Status;
             entity.UpdatedAt = DateTime.UtcNow;
-            entity.UpdatedByUserId = _currentUser.UserId; 
+            entity.UpdatedByUserId = _currentUser.UserId;
+
+            entity.CaseTags.Clear();
+
+            foreach (var tagId in request.TagIds)
+            {
+                entity.CaseTags.Add(new CaseTag { TagId = tagId });
+            }
 
             var result = await _repo.UpdateAsync(entity, cancellationToken);
 

@@ -18,5 +18,6 @@ namespace ApplicationLayer.Features.Cases.Dtos
         public int? AssignedToUserId { get; set; }
         public string? AssignedToUserName { get; set; }
         public string Status { get; set; } = default!;
+        public List<string> Tags { get; set; } = new();
     }
 }

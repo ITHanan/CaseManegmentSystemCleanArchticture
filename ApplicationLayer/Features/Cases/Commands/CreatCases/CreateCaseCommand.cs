@@ -13,6 +13,7 @@ namespace ApplicationLayer.Features.Cases.Commands.CreatCases
         string Title,
         string? Description,
         int ClientId,
-        int? AssignedToUserId
+        int? AssignedToUserId,
+        List<int>? TagIds
     ) : IRequest<OperationResult<CaseDto>>;
 }

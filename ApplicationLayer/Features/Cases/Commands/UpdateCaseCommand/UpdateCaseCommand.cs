@@ -9,6 +9,8 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
      int Id,
      string Title,
      string? Description,
+     int? AssignedToUserId,
+     List<int> TagIds,
      CaseStatus Status
  ) : IRequest<OperationResult<CaseDto>>;
 

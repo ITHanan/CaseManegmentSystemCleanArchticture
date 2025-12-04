@@ -3,6 +3,9 @@ using ApplicationLayer.Features.Cases.Commands.DeleteCase;
 using ApplicationLayer.Features.Cases.Commands.UpdateCase;
 using ApplicationLayer.Features.Cases.Queries.GetAllCases;
 using ApplicationLayer.Features.Cases.Queries.GetCaseById;
+using ApplicationLayer.Features.Cases.Queries.GetCasesByTagName;
+using ApplicationLayer.Features.Cases.Queries.GetPaginatedCasesQuery;
+using ApplicationLayer.Features.Cases.Queries.GetQueryByTagId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,4 +59,27 @@ public class CasesController : ControllerBase
         var result = await _mediator.Send(new DeleteCaseCommand(id));
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
+
+
+    [HttpGet("by-tag-id/{tagId}")]
+    public async Task<IActionResult> GetByTagId(int tagId)
+    {
+        var result = await _mediator.Send(new GetCasesByTagIdQuery(tagId));
+        return Ok(result);
+    }
+
+    [HttpGet("by-tag-name/{tagName}")]
+    public async Task<IActionResult> GetByTagName(string tagName)
+    {
+        var result = await _mediator.Send(new GetCasesByTagNameQuery(tagName));
+        return Ok(result);
+    }
+
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _mediator.Send(new GetPaginatedCasesQuery(pageNumber, pageSize));
+        return Ok(result);
+    }
+
 }
