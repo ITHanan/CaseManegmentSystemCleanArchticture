@@ -4,4 +4,6 @@ using DomainLayer.Models;
 public interface ICaseRepository : IGenericRepository<Case>
 {
     Task<Case?> GetCaseWithDetailsAsync(int id);
+    Task<List<Case>> GetAllCasesWithDetailsAsync();
+
 }

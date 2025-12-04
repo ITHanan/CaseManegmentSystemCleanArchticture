@@ -5,5 +5,5 @@ using MediatR;
 namespace ApplicationLayer.Features.Cases.Queries.GetAllCases
 {
     public record GetAllCasesQuery
-        : IRequest<OperationResult<IEnumerable<CaseDto>>>;
+        : IRequest<OperationResult<List<CaseDto>>>;
 }

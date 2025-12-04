@@ -8,26 +8,24 @@ using MediatR;
 namespace ApplicationLayer.Features.Cases.Queries.GetAllCases
 {
     public class GetAllCasesQueryHandler
-        : IRequestHandler<GetAllCasesQuery, OperationResult<IEnumerable<CaseDto>>>
+        : IRequestHandler<GetAllCasesQuery, OperationResult<List<CaseDto>>>
     {
-        private readonly IGenericRepository<Case> _repo;
+        private readonly ICaseRepository _caseRepository;
         private readonly IMapper _mapper;
 
-        public GetAllCasesQueryHandler(IGenericRepository<Case> repo, IMapper mapper)
+        public GetAllCasesQueryHandler(ICaseRepository caseRepository, IMapper mapper)
         {
-            _repo = repo;
+            _caseRepository = caseRepository;
             _mapper = mapper;
         }
 
-        public async Task<OperationResult<IEnumerable<CaseDto>>> Handle(GetAllCasesQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<List<CaseDto>>> Handle(GetAllCasesQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetAllAsync();
+            var cases = await _caseRepository.GetAllCasesWithDetailsAsync();
 
-            if (!result.IsSuccess)
-                return OperationResult<IEnumerable<CaseDto>>.Failure(result.ErrorMessage!);
+            var dtoList = _mapper.Map<List<CaseDto>>(cases);
 
-            var dto = _mapper.Map<IEnumerable<CaseDto>>(result.Data!);
-            return OperationResult<IEnumerable<CaseDto>>.Success(dto);
+            return OperationResult<List<CaseDto>>.Success(dtoList);
         }
     }
 }
