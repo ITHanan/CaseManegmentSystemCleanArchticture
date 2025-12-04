@@ -68,6 +68,9 @@ namespace InfrastructureLayer.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedByUserId = table.Column<int>(type: "int", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
                     AssignedToUserId = table.Column<int>(type: "int", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -84,8 +87,18 @@ namespace InfrastructureLayer.Migrations
                         name: "FK_Cases_Users_AssignedToUserId",
                         column: x => x.AssignedToUserId,
                         principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cases_Users_CreatedByUserId",
+                        column: x => x.CreatedByUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_Users_UpdatedByUserId",
+                        column: x => x.UpdatedByUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -147,6 +160,16 @@ namespace InfrastructureLayer.Migrations
                 name: "IX_Cases_ClientId",
                 table: "Cases",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_CreatedByUserId",
+                table: "Cases",
+                column: "CreatedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_UpdatedByUserId",
+                table: "Cases",
+                column: "UpdatedByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CaseTags_TagId",

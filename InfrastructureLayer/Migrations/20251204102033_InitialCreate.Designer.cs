@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructureLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251203212516_AddCreatedByUserRelations")]
-    partial class AddCreatedByUserRelations
+    [Migration("20251204102033_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,12 @@ namespace InfrastructureLayer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AssignedToUserId");
@@ -65,6 +71,8 @@ namespace InfrastructureLayer.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("Cases");
                 });
@@ -190,7 +198,7 @@ namespace InfrastructureLayer.Migrations
                     b.HasOne("DomainLayer.Models.User", "AssignedTo")
                         .WithMany("AssignedCases")
                         .HasForeignKey("AssignedToUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DomainLayer.Models.Client", "Client")
                         .WithMany("Cases")
@@ -204,11 +212,18 @@ namespace InfrastructureLayer.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("DomainLayer.Models.User", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("AssignedTo");
 
                     b.Navigation("Client");
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("DomainLayer.Models.CaseNote", b =>

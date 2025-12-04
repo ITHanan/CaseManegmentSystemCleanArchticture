@@ -4,10 +4,12 @@ using ApplicationLayer.Features.Cases.Commands.UpdateCase;
 using ApplicationLayer.Features.Cases.Queries.GetAllCases;
 using ApplicationLayer.Features.Cases.Queries.GetCaseById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class CasesController : ControllerBase
 {
     private readonly IMediator _mediator;

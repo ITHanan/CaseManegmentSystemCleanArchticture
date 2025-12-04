@@ -3,11 +3,6 @@ using AutoMapper;
 using DomainLayer.Common;
 using DomainLayer.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApplicationLayer.Features.Authorize.Commands.Register
 {
@@ -39,25 +34,31 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
                 // Map the DTO to a User entity
                 var user = _mapper.Map<User>(request);
 
+                //  Explicitly set missing fields (Mapper won't do this himself unless mapped)
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.PhoneNumber = request.PhoneNumber;
+
                 // Hash the password manually
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 user.UserEmail = user.UserEmail!.ToLower();
 
-                // Add the user to the context (not saved yet)
+                // Add the user (not saved yet)
                 await _authRepository.CreateUserAsync(user);
 
-                // Save the user only if everything succeeded
-                await _authRepository.SaveChangesAsync();
+                // Save changes
+                var saveResult = await _authRepository.SaveChangesAsync();
+                if (!saveResult.IsSuccess)
+                    return OperationResult<string>.Failure(saveResult.ErrorMessage!);
 
-                // Try to generate the token (if this fails, no DB changes happen)
+                // Generate token
                 var token = _jwtGenerator.GenerateToken(user);
 
-                // Return token
+                // Return success
                 return OperationResult<string>.Success(token);
             }
             catch (Exception ex)
             {
-                // Handle unexpected errors
                 return OperationResult<string>.Failure($"Error during registration: {ex.Message}");
             }
         }

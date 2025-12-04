@@ -1,33 +1,30 @@
 ﻿using ApplicationLayer.Features.Cases.Dtos;
-using ApplicationLayer.Interfaces;
+using ApplicationLayer.Features.Cases.Queries.GetCaseById;
 using AutoMapper;
 using DomainLayer.Common;
-using DomainLayer.Models;
 using MediatR;
 
-namespace ApplicationLayer.Features.Cases.Queries.GetCaseById
+public class GetCaseByIdQueryHandler
+    : IRequestHandler<GetCaseByIdQuery, OperationResult<CaseDto>>
 {
-    public class GetCaseByIdQueryHandler
-        : IRequestHandler<GetCaseByIdQuery, OperationResult<CaseDto>>
+    private readonly ICaseRepository _caseRepo;
+    private readonly IMapper _mapper;
+
+    public GetCaseByIdQueryHandler(ICaseRepository caseRepo, IMapper mapper)
     {
-        private readonly IGenericRepository<Case> _repo;
-        private readonly IMapper _mapper;
+        _caseRepo = caseRepo;
+        _mapper = mapper;
+    }
 
-        public GetCaseByIdQueryHandler(IGenericRepository<Case> repo, IMapper mapper)
-        {
-            _repo = repo;
-            _mapper = mapper;
-        }
+    public async Task<OperationResult<CaseDto>> Handle(GetCaseByIdQuery request, CancellationToken cancellationToken)
+    {
+        var caseEntity = await _caseRepo.GetCaseWithDetailsAsync(request.Id);
 
-        public async Task<OperationResult<CaseDto>> Handle(GetCaseByIdQuery request, CancellationToken cancellationToken)
-        {
-            var result = await _repo.GetByIdAsync(request.Id);
+        if (caseEntity == null)
+            return OperationResult<CaseDto>.Failure("Case not found");
 
-            if (!result.IsSuccess)
-                return OperationResult<CaseDto>.Failure(result.ErrorMessage!);
+        var dto = _mapper.Map<CaseDto>(caseEntity);
 
-            var dto = _mapper.Map<CaseDto>(result.Data!);
-            return OperationResult<CaseDto>.Success(dto);
-        }
+        return OperationResult<CaseDto>.Success(dto);
     }
 }

@@ -2,35 +2,36 @@
 using AutoMapper;
 using DomainLayer.Models;
 
-namespace ApplicationLayer.Profiles
+namespace ApplicationLayer.Common.Mappings
 {
     public class CaseProfile : Profile
     {
         public CaseProfile()
         {
             CreateMap<Case, CaseDto>()
-                // Status enum → string
+
+                // Convert status enum to string
                 .ForMember(
-                    dest => dest.Status,
-                    opt => opt.MapFrom(src => src.Status.ToString())
+                    destination => destination.Status,
+                    config => config.MapFrom(source => source.Status.ToString())
                 )
 
-                // Creator full name (safe mapping)
+                // Map Created By User Full Name safely
                 .ForMember(
-                    dest => dest.CreatedByUserName,
-                    opt => opt.MapFrom(src =>
-                        src.CreatedByUser != null
-                            ? $"{src.CreatedByUser.FirstName} {src.CreatedByUser.LastName}"
-                            : string.Empty
+                    destination => destination.CreatedByUserName,
+                    config => config.MapFrom(source =>
+                        source.CreatedByUser != null
+                            ? $"{source.CreatedByUser.FirstName ?? ""} {source.CreatedByUser.LastName ?? ""}".Trim()
+                            : null
                     )
                 )
 
-                // AssignedTo user full name (safe mapping)
+                // Map Assigned User Full Name safely
                 .ForMember(
-                    dest => dest.AssignedToUserName,
-                    opt => opt.MapFrom(src =>
-                        src.AssignedTo != null
-                            ? $"{src.AssignedTo.FirstName} {src.AssignedTo.LastName}"
+                    destination => destination.AssignedToUserName,
+                    config => config.MapFrom(source =>
+                        source.AssignedTo != null
+                            ? $"{source.AssignedTo.FirstName ?? ""} {source.AssignedTo.LastName ?? ""}".Trim()
                             : null
                     )
                 );

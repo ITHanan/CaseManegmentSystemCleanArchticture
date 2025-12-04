@@ -53,24 +53,26 @@ namespace InfrastructureLayer.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
 
-            // -------------------------------
             // Case → CreatedByUser (Many-to-One)
-            // -------------------------------
             modelBuilder.Entity<Case>()
                 .HasOne(c => c.CreatedByUser)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(c => c.CreatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
-            // -------------------------------
             // Case → AssignedTo (Many-to-One, Nullable)
-            // -------------------------------
             modelBuilder.Entity<Case>()
                 .HasOne(c => c.AssignedTo)
                 .WithMany(u => u.AssignedCases)
                 .HasForeignKey(c => c.AssignedToUserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Case → UpdatedByUser (Many-to-One, Nullable)
+            modelBuilder.Entity<Case>()
+                .HasOne(c => c.UpdatedByUser)
+                .WithMany()
+                .HasForeignKey(c => c.UpdatedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             // -------------------------------
