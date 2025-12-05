@@ -32,7 +32,7 @@ namespace ApiLayer
                 options.AddPolicy("AdminOnly", policy =>
                     policy.RequireRole("Admin"));
 
-                options.AddPolicy("CaseManagers", policy =>
+                options.AddPolicy("CaseManagers", policy =>// will add later
                     policy.RequireRole("Admin", "Manager"));
 
                 options.AddPolicy("CanUpdateCaseStatus", policy =>

@@ -39,6 +39,7 @@ namespace ApplicationLayer.Features.Cases.Commands.UpdateCase
             // Update fields
             entity.Title = request.Title;
             entity.Description = request.Description;
+            entity.AssignedToUserId = request.AssignedToUserId;
             entity.Status = request.Status;
             entity.UpdatedAt = DateTime.UtcNow;
             entity.UpdatedByUserId = _currentUser.UserId;
