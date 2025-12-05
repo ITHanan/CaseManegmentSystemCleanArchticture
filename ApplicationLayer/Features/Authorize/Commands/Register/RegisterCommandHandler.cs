@@ -42,6 +42,7 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
                 // Hash the password manually
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 user.UserEmail = user.UserEmail!.ToLower();
+                user.Role = request.Role == "Admim"? "Admin" : "User";
 
                 // Add the user (not saved yet)
                 await _authRepository.CreateUserAsync(user);

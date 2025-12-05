@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.Features.Tags.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -27,6 +28,7 @@ public class TagsController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateTagDto dto)
     {
@@ -41,6 +43,8 @@ public class TagsController : ControllerBase
         return Ok(result);
     }
 
+
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

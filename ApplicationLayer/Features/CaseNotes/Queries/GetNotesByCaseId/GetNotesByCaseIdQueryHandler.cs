@@ -31,7 +31,9 @@ namespace ApplicationLayer.Features.CaseNotes.Queries.GetNotesByCaseId
                 .OrderByDescending(n => n.CreatedAt)
                 .ToList();
 
-            return OperationResult<List<CaseNoteDto>>.Success(_mapper.Map<List<CaseNoteDto>>(notes));
+            var dtos = _mapper.Map<List<CaseNoteDto>>(notes);
+
+            return OperationResult<List<CaseNoteDto>>.Success(dtos);
         }
     }
 }

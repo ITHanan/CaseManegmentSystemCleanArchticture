@@ -22,6 +22,8 @@ namespace InfrastructureLayer
 
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICaseRepository, CaseRepository>();
+            services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+
             services.AddScoped<IJwtGenerator, JWTGenerator>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

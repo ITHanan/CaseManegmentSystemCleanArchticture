@@ -1,4 +1,5 @@
-﻿using ApplicationLayer.Features.Cases.Commands.CreatCases;
+﻿using ApplicationLayer.Features.Cases.Commands.CloseCase.Colmmands;
+using ApplicationLayer.Features.Cases.Commands.CreatCases;
 using ApplicationLayer.Features.Cases.Commands.DeleteCase;
 using ApplicationLayer.Features.Cases.Commands.UpdateCase;
 using ApplicationLayer.Features.Cases.Queries.GetAllCases;
@@ -6,6 +7,8 @@ using ApplicationLayer.Features.Cases.Queries.GetCaseById;
 using ApplicationLayer.Features.Cases.Queries.GetCasesByTagName;
 using ApplicationLayer.Features.Cases.Queries.GetPaginatedCasesQuery;
 using ApplicationLayer.Features.Cases.Queries.GetQueryByTagId;
+using ApplicationLayer.Features.ChangeCaseStatus.Commands;
+using DomainLayer.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +46,7 @@ public class CasesController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result);
     }
 
+    [Authorize(Policy = "CaseManagers")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateCaseCommand command, CancellationToken token)
     {
@@ -53,6 +57,7 @@ public class CasesController : ControllerBase
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -81,5 +86,29 @@ public class CasesController : ControllerBase
         var result = await _mediator.Send(new GetPaginatedCasesQuery(pageNumber, pageSize));
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateCaseStatusCommand command)
+    {
+        if (id != command.CaseId)
+            return BadRequest("Route ID does not match CaseId.");
+
+        var result = await _mediator.Send(command);
+
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [Authorize(Policy = "AdminOnly")]
+    [HttpPut("{id}/close")]
+    public async Task<IActionResult> CloseCase(int id)
+    {
+        var result = await _mediator.Send(new CloseCaseCommand(id));
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
+    }
+
 
 }

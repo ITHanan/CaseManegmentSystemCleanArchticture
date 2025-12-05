@@ -14,5 +14,7 @@ namespace ApplicationLayer.Features.Authorize.DTOs
         public required string PhoneNumber { get; set; }
         public required string UserEmail { get; set; }
         public required string Password { get; set; }
+
+        public required string Role { get; set; } = "User";
     }
 }

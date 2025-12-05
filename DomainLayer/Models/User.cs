@@ -19,6 +19,8 @@ namespace DomainLayer.Models
 
         public string PasswordHash { get; set; } = null!;
 
+        public string Role { get; set; } = "User";  
+
         public ICollection<Case> AssignedCases { get; set; } = new List<Case>();
     }
 }

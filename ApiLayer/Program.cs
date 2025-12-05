@@ -27,6 +27,19 @@ namespace ApiLayer
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerWithJwt();
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy =>
+                    policy.RequireRole("Admin"));
+
+                options.AddPolicy("CaseManagers", policy =>
+                    policy.RequireRole("Admin", "Manager"));
+
+                options.AddPolicy("CanUpdateCaseStatus", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.IsInRole("Admin") || context.User.IsInRole("Manager")));
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

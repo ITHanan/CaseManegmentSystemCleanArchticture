@@ -47,3 +47,4 @@ namespace ApplicationLayer.Features.CaseNotes.Commands.DeleteNote
             return OperationResult<bool>.Success(true);
         }
     }
+}

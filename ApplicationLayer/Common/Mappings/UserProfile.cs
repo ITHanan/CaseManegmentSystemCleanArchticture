@@ -40,6 +40,11 @@ namespace ApplicationLayer.Common.Mappings
                 .ForMember(
                     user => user.AssignedCases,
                     mapping => mapping.Ignore()
+                )
+
+                .ForMember(
+                    user => user.Role,
+                    mapping => mapping.MapFrom(Common => Common.Role)
                 );
         }
     }

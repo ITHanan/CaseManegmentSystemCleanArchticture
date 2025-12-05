@@ -29,7 +29,8 @@ namespace ApiLayer.Controllers
                 lastName: userRegisterDto.LastName,
                 phoneNumber: userRegisterDto.PhoneNumber,
                 userEmail: userRegisterDto.UserEmail,
-                password: userRegisterDto.Password
+                password: userRegisterDto.Password,
+                role: userRegisterDto.Role
             );
 
             // Execute command

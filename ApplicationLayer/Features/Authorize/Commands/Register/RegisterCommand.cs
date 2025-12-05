@@ -11,6 +11,7 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
         public string PhoneNumber { get; set; } // NEW
         public string UserEmail { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
 
         public RegisterCommand(
             string userName,
@@ -18,7 +19,8 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
             string lastName,
             string phoneNumber,
             string userEmail,
-            string password)
+            string password,
+            string role)
         {
             UserName = userName;
             FirstName = firstName;
@@ -26,6 +28,7 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
             PhoneNumber = phoneNumber;
             UserEmail = userEmail;
             Password = password;
+            Role = role;
         }
     }
 }
