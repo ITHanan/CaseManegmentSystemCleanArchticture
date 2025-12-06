@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLayer", "ApiLayer\ApiLayer.csproj", "{5581F9EA-E512-41E4-A972-8516D2464A0D}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureLayer", "InfrastructureLayer\InfrastructureLayer.csproj", "{F0F2617D-AC4A-46B6-BCE0-EE058556327C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{814775F7-8215-4A46-965E-699CD8C37DE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiLayer.IntegrationTests", "ApiLayer.IntegrationTests\ApiLayer.IntegrationTests.csproj", "{57E2ECFB-B7F8-4442-874B-598DC15AF123}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{814775F7-8215-4A46-965E-699CD8C37DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814775F7-8215-4A46-965E-699CD8C37DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814775F7-8215-4A46-965E-699CD8C37DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E2ECFB-B7F8-4442-874B-598DC15AF123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E2ECFB-B7F8-4442-874B-598DC15AF123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E2ECFB-B7F8-4442-874B-598DC15AF123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E2ECFB-B7F8-4442-874B-598DC15AF123}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
