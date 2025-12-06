@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ApiLayer.IntegrationTests.Tests
 {
-    public class AuthorizationTests : IClassFixture<WebApplicationFactory<Program>>
+    public class AuthorizationTests : IClassFixture<TestWebApplicationFactory>
     {
         private readonly HttpClient _client;
 
-        public AuthorizationTests(WebApplicationFactory<Program> factory)
+        public AuthorizationTests(TestWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }

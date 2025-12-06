@@ -5,11 +5,11 @@ using Xunit;
 
 namespace ApiLayer.IntegrationTests.Tests
 {
-    public class CasesApiTests : IClassFixture<WebApplicationFactory<ApiLayer.Program>>
+    public class CasesApiTests : IClassFixture<TestWebApplicationFactory>
     {
         private readonly HttpClient _client;
 
-        public CasesApiTests(WebApplicationFactory<ApiLayer.Program> factory)
+        public CasesApiTests(TestWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }
