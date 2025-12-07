@@ -59,5 +59,6 @@ namespace ApiLayer.Controllers
             var result = await _mediator.Send(command);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
     }
 }
