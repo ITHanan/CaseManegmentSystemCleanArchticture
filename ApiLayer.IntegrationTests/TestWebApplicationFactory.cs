@@ -1,10 +1,10 @@
-﻿using ApiLayer;
-using DomainLayer.Models;
+using ApiLayer;
+using InfrastructureLayer.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using InfrastructureLayer.Data;
+using DomainLayer.Models;
 
 namespace ApiLayer.IntegrationTests
 {
@@ -14,72 +14,69 @@ namespace ApiLayer.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
-                // Remove existing SQL registrations
+                // REMOVE the real SQL Server registration
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
 
                 if (descriptor != null)
                     services.Remove(descriptor);
 
-                // Create unique DB name per test
-                var dbName = $"TestDb_{Guid.NewGuid()}";
-
+                // ADD InMemory database
                 services.AddDbContext<AppDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase(dbName);
+                    options.UseInMemoryDatabase("TestDb");
                 });
 
+                // Build service provider
                 var sp = services.BuildServiceProvider();
 
                 using var scope = sp.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
                 db.Database.EnsureCreated();
 
-                // Seed Users
+                // SEED USERS
                 db.Users.Add(new User
                 {
                     Id = 1,
                     UserName = "mimi",
-                    FirstName = "Mimi",
-                    LastName = "User",
-                    PhoneNumber = "0700111222",
                     UserEmail = "mimi@test.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("Mimi123@"),
-                    Role = "User"
+                    Role = "User",
+                    PhoneNumber = "0700000000",
+                    FirstName = "Mimi",
+                    LastName = "Test"
                 });
 
                 db.Users.Add(new User
                 {
                     Id = 2,
                     UserName = "admin",
-                    FirstName = "Admin",
-                    LastName = "Master",
-                    PhoneNumber = "0700333444",
                     UserEmail = "admin@test.com",
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123@"),
-                    Role = "Admin"
+                    Role = "Admin",
+                    PhoneNumber = "0700000000",
+                    FirstName = "Admin",
+                    LastName = "User"
                 });
 
-                // Seed client
+                // SEED CLIENT
                 db.Clients.Add(new Client
                 {
                     Id = 1,
                     Name = "Test Client",
-                    PhoneNumber = "0700000000",
-                    Email = "client@test.com"
+                    Email = "client@test.com",
+                    PhoneNumber = "0700000000"
                 });
 
-                // Seed case
+                // SEED CASE
                 db.Cases.Add(new Case
                 {
                     Id = 1,
-                    Title = "Test Case",
+                    Title = "Sample Case",
                     ClientId = 1,
                     CreatedByUserId = 1,
                     AssignedToUserId = 1,
-                    Status = CaseStatus.Open,
-                    CreatedAt = DateTime.UtcNow
+                    Status = CaseStatus.Open
                 });
 
                 db.SaveChanges();
