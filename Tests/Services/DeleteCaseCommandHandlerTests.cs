@@ -6,7 +6,7 @@ using FluentAssertions;
 using InfrastructureLayer.Repositories;
 using Moq;
 
-namespace Tests;
+namespace Tests.Services;
 
     public class DeleteCaseCommandHandlerTests
     {

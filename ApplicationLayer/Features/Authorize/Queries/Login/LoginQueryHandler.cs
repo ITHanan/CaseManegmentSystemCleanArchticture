@@ -14,7 +14,7 @@ namespace ApplicationLayer.Features.Authorize.Queries.Login
         private readonly IAuthRepository _authRepository;
         private readonly IJwtGenerator _jwtGenerator;
 
-        public LoginQueryHandler(IAuthRepository authRepository, IJwtGenerator jwtGenerator)
+        public LoginQueryHandler(IAuthRepository authRepository, IJwtGenerator jwtGenerator, AutoMapper.IMapper @object)
         {
             _authRepository = authRepository;
             _jwtGenerator = jwtGenerator;

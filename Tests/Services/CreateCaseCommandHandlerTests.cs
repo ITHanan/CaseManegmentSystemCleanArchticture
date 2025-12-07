@@ -6,7 +6,7 @@ using DomainLayer.Models;
 using FluentAssertions;
 using Moq;
 
-namespace Tests;
+namespace Tests.Services;
 
 public class CreateCaseCommandHandlerTests
 {
