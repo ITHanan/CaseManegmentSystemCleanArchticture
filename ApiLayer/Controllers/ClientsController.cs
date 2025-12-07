@@ -19,28 +19,29 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateClientCommand command)
+        [HttpPost("Creat-Client")]
+        public async Task<IActionResult> Create([FromBody] CreateClientCommand command)
         {
             var result = await _mediator.Send(command);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet]
+
+        [HttpGet("Get-All-Client")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllClientsQuery());
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/Get-Client-By-Client-Id")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _mediator.Send(new GetClientByIdQuery(id));
             return result.IsSuccess ? Ok(result) : NotFound(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}/Update-Client-By-ClientId")]
         public async Task<IActionResult> Update(int id, UpdateClientCommand command)
         {
             if (id != command.Id)
@@ -50,7 +51,7 @@ namespace Api.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/Delete-client-By-ClientId")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteClientCommand(id));

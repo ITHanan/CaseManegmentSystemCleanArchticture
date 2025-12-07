@@ -25,21 +25,21 @@ public class CasesController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [HttpPost("Create-Case")]
     public async Task<IActionResult> Create(CreateCaseCommand command, CancellationToken token)
     {
         var result = await _mediator.Send(command, token);
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
-    [HttpGet]
+    [HttpGet("GetAllCases")]
     public async Task<IActionResult> GetAll()
     {
         var result = await _mediator.Send(new GetAllCasesQuery());
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("Get-Case-By-Id/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetCaseByIdQuery(id));
@@ -47,7 +47,7 @@ public class CasesController : ControllerBase
     }
 
     [Authorize(Policy = "CaseManagers")]
-    [HttpPut("{id}")]
+    [HttpPut("{id}/update-case-By-Id")]
     public async Task<IActionResult> Update(int id, UpdateCaseCommand command, CancellationToken token)
     {
         if (id != command.Id)
@@ -58,7 +58,7 @@ public class CasesController : ControllerBase
     }
 
     [Authorize(Policy = "AdminOnly")]
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}/Delete-Case-By-ID")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteCaseCommand(id));
@@ -66,21 +66,21 @@ public class CasesController : ControllerBase
     }
 
 
-    [HttpGet("by-tag-id/{tagId}")]
+    [HttpGet("Get-Case-by-tag-id/{tagId}")]
     public async Task<IActionResult> GetByTagId(int tagId)
     {
         var result = await _mediator.Send(new GetCasesByTagIdQuery(tagId));
         return Ok(result);
     }
 
-    [HttpGet("by-tag-name/{tagName}")]
+    [HttpGet("Get-Case-by-tag-name/{tagName}")]
     public async Task<IActionResult> GetByTagName(string tagName)
     {
         var result = await _mediator.Send(new GetCasesByTagNameQuery(tagName));
         return Ok(result);
     }
 
-    [HttpGet("paged")]
+    [HttpGet("PaginatedCases")]
     public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         var result = await _mediator.Send(new GetPaginatedCasesQuery(pageNumber, pageSize));
@@ -88,7 +88,7 @@ public class CasesController : ControllerBase
     }
 
     [Authorize]
-    [HttpPut("{id}/status")]
+    [HttpPut("{id}/status-Only-Status-of-the-Case")]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateCaseStatusCommand command)
     {
         if (id != command.CaseId)
@@ -103,7 +103,7 @@ public class CasesController : ControllerBase
     }
 
     [Authorize(Policy = "AdminOnly")]
-    [HttpPut("{id}/close")]
+    [HttpPut("{id}/close-the-Case")]
     public async Task<IActionResult> CloseCase(int id)
     {
         var result = await _mediator.Send(new CloseCaseCommand(id));

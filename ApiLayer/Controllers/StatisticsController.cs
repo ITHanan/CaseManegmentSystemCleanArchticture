@@ -15,6 +15,7 @@ namespace ApiLayer.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet("dashboard")]
         public async Task<IActionResult> GetDashboardStats()
         {

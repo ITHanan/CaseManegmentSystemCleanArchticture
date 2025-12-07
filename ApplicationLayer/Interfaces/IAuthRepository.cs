@@ -16,6 +16,7 @@ namespace ApplicationLayer.Interfaces
         // Checks if email is already registered in the system
         Task<bool> EmailExistsAsync(string email);
 
+        Task<bool> UsernameExistsAsync(string username);        
         // Adds a new user to the database (registration)
         Task CreateUserAsync(User user);
 

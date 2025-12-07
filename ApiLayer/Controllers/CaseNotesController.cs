@@ -29,14 +29,14 @@ namespace ApiLayer.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{caseId}/notes")]
+        [HttpGet("{caseId}/notes-By-CaseId")]
         public async Task<IActionResult> GetNotes(int caseId)
         {
             var result = await _mediator.Send(new GetNotesByCaseIdQuery(caseId));
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("Create-Notes-By-CaseId/{caseId}")]
         public async Task<IActionResult> Create(int caseId, CreateNoteDto dto)
         {
             var command = new CreateCaseNoteCommand(caseId, dto.Content);
@@ -44,7 +44,7 @@ namespace ApiLayer.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPut("{noteId}")]
+        [HttpPut("{noteId}/Update-case-By-NoteId")]
         public async Task<IActionResult> Update(int noteId, UpdateNoteDto dto)
         {
             var command = new UpdateCaseNoteCommand(noteId, dto.Content);
@@ -52,7 +52,7 @@ namespace ApiLayer.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
-        [HttpDelete("{noteId}")]
+        [HttpDelete("{noteId}/Delete-not-by-NoteId")]
         public async Task<IActionResult> Delete(int noteId)
         {
             var command = new DeleteCaseNoteCommand(noteId);

@@ -31,6 +31,10 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
                 if (emailExists)
                     return OperationResult<string>.Failure("Email is already registered.");
 
+                var usernameExists = await _authRepository.UsernameExistsAsync(request.UserName);
+                  if (usernameExists)
+                    return OperationResult<string>.Failure("Username is already taken.");
+
                 // Map the DTO to a User entity
                 var user = _mapper.Map<User>(request);
 

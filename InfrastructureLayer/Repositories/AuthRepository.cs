@@ -32,6 +32,11 @@ namespace InfrastructureLayer.Repositories
             return await _context.Users.AnyAsync(user => user.UserEmail!.ToLower() == email.ToLower());
         }
 
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            return await _context.Users.AnyAsync(user => user.UserName!.ToLower() == username.ToLower());
+        }
+
         // Get user by username (used in login)
         public async Task<User?> GetUserByUsernameAsync(string username)
         {

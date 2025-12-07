@@ -14,14 +14,14 @@ public class TagsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
+    [HttpGet("Get-All-Tags")]
     public async Task<IActionResult> GetAll()
     {
         var result = await _mediator.Send(new GetAllTagsQuery());
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}/Get-Tags-By-TagID")]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetTagByIdQuery(id));
@@ -29,14 +29,14 @@ public class TagsController : ControllerBase
     }
 
     [Authorize(Policy = "AdminOnly")]
-    [HttpPost]
+    [HttpPost("Creat-Tags")]
     public async Task<IActionResult> Create(CreateTagDto dto)
     {
         var result = await _mediator.Send(new CreateTagCommand(dto.Name));
         return Ok(result);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}/Update-Tags")]
     public async Task<IActionResult> Update(int id, UpdateTagDto dto)
     {
         var result = await _mediator.Send(new UpdateTagCommand(id, dto.Name));
@@ -45,7 +45,7 @@ public class TagsController : ControllerBase
 
 
     [Authorize(Policy = "AdminOnly")]
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}/Delete-Tags")]
     public async Task<IActionResult> Delete(int id)
     {
         var result = await _mediator.Send(new DeleteTagCommand(id));
