@@ -36,7 +36,7 @@ namespace ApplicationLayer.Features.Authorize.Commands.Register
                     return OperationResult<string>.Failure("Username is already taken.");
 
                 // Map the DTO to a User entity
-                var user = _mapper.Map<User>(request);
+                var user = _mapper.Map<DomainLayer.Models.User>(request);
 
                 //  Explicitly set missing fields (Mapper won't do this himself unless mapped)
                 user.FirstName = request.FirstName;

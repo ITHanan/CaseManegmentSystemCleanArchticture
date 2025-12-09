@@ -6,7 +6,8 @@ namespace ApplicationLayer.Features.Clients.Commands.UpdateClient
 {
     public record UpdateClientCommand(
         int Id,
-        string Name,
+        string FirstName,
+        string LastName,
         string Email,
         string PhoneNumber
     ) : IRequest<OperationResult<ClientDto>>;

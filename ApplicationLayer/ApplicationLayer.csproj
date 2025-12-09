@@ -18,4 +18,8 @@
     <ProjectReference Include="..\DomainLayer\DomainLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\User\Commands\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 ﻿using ApplicationLayer.Features.Authorize.Commands.Register;
 using ApplicationLayer.Features.Authorize.DTOs;
 using ApplicationLayer.Features.Authorize.Queries.Login;
+using ApplicationLayer.Features.User.Queries.GetAllUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,5 +57,14 @@ namespace ApiLayer.Controllers
 
             return Ok(result);
         }
+
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var result = await _mediator.Send(new GetAllUserQuery());
+            return Ok(result);
+        }
+
     }
 }

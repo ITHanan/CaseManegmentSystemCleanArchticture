@@ -6,7 +6,8 @@ using MediatR;
 namespace ApplicationLayer.Features.Clients.Commands.CreateClient
 {
     public record CreateClientCommand(
-        string Name,
+        string FirstName,
+        string LastName,
         string Email,
         string PhoneNumber
     ) : IRequest<OperationResult<ClientDto>>;

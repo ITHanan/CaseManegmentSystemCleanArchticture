@@ -38,7 +38,7 @@ namespace InfrastructureLayer.Repositories
             => await _context.Clients
                 .Include(c => c.Cases)
                 .ToDictionaryAsync(
-                    c => c.Name,
+                    c => c.FullName,
                     c => c.Cases.Count
                 );
 

@@ -30,7 +30,8 @@ namespace ApplicationLayer.Features.Clients.Commands.UpdateClient
                 return OperationResult<ClientDto>.Failure("Client not found");
 
             var entity = existing.Data!;
-            entity.Name = request.Name;
+            entity.FirstName = request.LastName;
+            entity.LastName = request.LastName;
             entity.Email = request.Email;
             entity.PhoneNumber = request.PhoneNumber;
 

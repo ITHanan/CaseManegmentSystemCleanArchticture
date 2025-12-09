@@ -46,7 +46,7 @@ public class CasesController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result);
     }
 
-    [Authorize(Policy = "CaseManagers")]
+    [Authorize]
     [HttpPut("{id}/update-case-By-Id")]
     public async Task<IActionResult> Update(int id, UpdateCaseCommand command, CancellationToken token)
     {
@@ -57,7 +57,7 @@ public class CasesController : ControllerBase
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize]
     [HttpDelete("{id}/Delete-Case-By-ID")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -102,13 +102,13 @@ public class CasesController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize]
     [HttpPut("{id}/close-the-Case")]
     public async Task<IActionResult> CloseCase(int id)
     {
         var result = await _mediator.Send(new CloseCaseCommand(id));
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
-
+    
 
 }

@@ -26,7 +26,8 @@ namespace ApplicationLayer.Features.Clients.Commands.CreateClient
         {
             var entity = new Client
             {
-                Name = request.Name,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
             };

@@ -3,7 +3,9 @@
     public class ClientDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = default!;
+        public string FirstName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
+        public string FullName => $"{FirstName} {LastName}";
         public string Email { get; set; } = default!;
         public string PhoneNumber { get; set; } = default!;
     }
