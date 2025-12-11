@@ -1,89 +1,231 @@
-# CleanArchitectBoilerplate
+Case Management System ⚖️
 
-🧩 Clean Architecture .NET Backend Boilerplate
+A modern full-stack Case Management System built with ASP.NET Core, React, Material UI, and SQL Server.
+The system allows organizations to manage clients, cases, tags, notes, assignments, dashboards, and user authentication in a clean and efficient workflow.
 
-This project serves as a comprehensive and reusable backend boilerplate built on .NET 8, adhering to the Clean Architecture principles.
+Features 🎯
+Case Management
 
-The repository aims to provide a solid, organized foundation for any new Web API project, focusing on code that is testable, maintainable, and scalable.
+Create, update, delete, and view detailed case information
 
-📚 Table of Contents
+Assign cases to users
 
-Key Goals and Features
+Add notes, tags, and descriptions
 
-Architecture Structure
+Case status management (Open / In Progress / Closed)
 
-Getting Started (Local Execution)
+Dashboard Analytics
 
-Contributing
+Total cases
 
-🎯 Key Goals and Features
+Status distribution
 
-Clean Architecture: Clear separation of layers ensures the independence of domain logic from technical details.
+Cases per user
 
-CQRS (Command Query Responsibility Segregation) with MediatR: Separates logic between commands (state-changing operations) and queries (data retrieval).
+Cases per client
 
-Generic Repository Pattern: Standardizes and simplifies data access via Entity Framework Core.
+Recent activity list
 
-JWT Authentication: Full support for authentication using JWT tokens, including Swagger configuration for token handling.
+Interactive charts (Bar & Pie Charts with Recharts)
 
-📁 Architecture Structure
+User & Client Management
 
-The project is divided into four primary layers (projects), with a dependency flow directed inward (towards the Domain).
+Manage users
 
-Layer (Project)
+Manage clients
 
-Description and Responsibilities
+Authentication & Authorization (JWT)
 
-DomainLayer
+Secure login and registration
 
-Contains the application's core: Entities, Value Objects, and core business logic. Has no external dependencies.
+Search & Filter
 
-ApplicationLayer
+Search cases by title
 
-Contains Use Cases, DTOs, Repository Interfaces (IGenericRepository<T>), and CQRS handlers (Commands & Queries).
+Filter cases by status
 
-InfrastructureLayer
+Combined search + filter functionality
 
-Contains the actual implementation of the Repository interfaces using Entity Framework Core, data access details, and external services (like the JWT generator).
+Pagination for long case lists
 
-ApiLayer
+UI/UX
 
-The Entry Point of the application. Contains Controllers that receive HTTP requests and use IMediator to dispatch Commands and Queries.
+Fully responsive Material UI interface
 
-🚀 Getting Started (Local Execution)
+Sidebar navigation
 
-To run this project locally, ensure you meet the requirements and follow the steps below:
+Modern dark theme
 
+Clean form layouts for Create / Edit Case pages
+
+Technology Stack 💻
+Frontend
+
+React (Vite)
+
+Material UI (MUI v5)
+
+Axios
+
+React Router
+
+Recharts (analytics)
+
+React Icons
+
+Backend
+
+ASP.NET Core Web API (.NET 8)
+
+Mediator + CQRS
+
+Clean Architecture
+
+Entity Framework Core
+
+SQL Server
+
+Database
+
+SQL Server + EF Core Migrations
+
+Tables: Users, Clients, Cases, Notes, Tags, CaseTags
+
+Getting Started 🚀
 Prerequisites
 
-.NET 8 SDK (or newer).
+Make sure you have installed:
 
-SQL Server LocalDB or equivalent database management tool.
+Node.js 18+
 
-Command Sequence
+.NET SDK 8
 
-Clone the Project:
+SQL Server or LocalDB
 
-git clone  https://github.com/ITHanan/CleanArchitectBoilerplate.git # Replace with your repo URL
-cd CleanArchitectBoilerplate
+Backend Setup (ASP.NET Core API)
 
+Navigate to backend folder:
 
-Restore NuGet Packages:
-
-dotnet restore
+cd CaseManagementSystem-API
 
 
-Update Database (Apply Migrations):
-Note: Specify both the project containing the DbContext (InfrastructureLayer) and the startup project (ApiLayer).
+Update your connection string in appsettings.json:
 
-dotnet ef database update --project InfrastructureLayer --startup-project ApiLayer
-
-
-Run the API:
-
-dotnet run --project ApiLayer
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.;Database=CaseDB;Trusted_Connection=True;TrustServerCertificate=True"
+}
 
 
-🤝 Contributing
+Apply EF Core migrations:
 
-We welcome contributions! Please refer to the CONTRIBUTING.md file for guidelines on branch naming, pull requests, and coding standards.
+Update-Database
+
+
+Run the backend:
+
+dotnet run
+
+
+API will start at:
+
+https://localhost:7220/
+
+Frontend Setup (React + Vite)
+
+Navigate to frontend folder:
+
+cd case-management-frontend
+
+
+Install dependencies:
+
+npm install
+
+
+Start the development server:
+
+npm run dev
+
+
+Frontend runs at:
+
+http://localhost:5173/
+
+API Endpoints 📡
+Authentication
+Method	Endpoint	Description
+POST	/api/Auth/register	Register new user
+POST	/api/Auth/login	Login & receive JWT
+GET	/api/Auth/users	Get all users
+Cases
+Method	Endpoint	Description
+GET	/api/Cases/GetAllCases	Get all cases
+GET	/api/Cases/Get-Case-By-Id/{id}	Get specific case
+POST	/api/Cases/Create-Case	Create new case
+PUT	/api/Cases/{id}/update-case-By-Id	Update case
+DELETE	/api/Cases/{id}	Delete case
+Clients
+Method	Endpoint
+GET	/api/Clients/Get-All-Client
+Tags
+Method	Endpoint
+GET	/api/Tags/Get-All-Tags
+Dashboard
+Method	Endpoint
+GET	/api/Statistics/dashboard
+Project Structure 🧱
+├── Backend (ASP.NET Core)
+│   ├── Domain
+│   ├── Application (CQRS, Mediator)
+│   ├── Infrastructure (EF Core)
+│   └── API (Controllers)
+│
+└── Frontend (React)
+    ├── components
+    ├── pages
+    ├── styles
+    └── router
+
+Known Issues 🐞
+
+Some API responses still wrap data inside { data: { data: ... } }
+
+Material UI dark mode may require additional contrast tweaks
+
+Large datasets may load slowly without server-side pagination
+
+react-icons installation sometimes requires restarting npm run dev
+
+Future Enhancements 🚧
+
+Priority Levels (Low, Medium, High)
+
+Attachments (Upload documents for cases)
+
+Comment Threads
+
+Activity Timeline
+
+Role-Based Access Control (Admin / User)
+
+Email notifications
+
+Case audit log
+
+Contributing 🤝
+
+Contributions are welcome!
+
+Fork the repo
+
+Create a new branch
+
+Commit improvements
+
+Submit a pull request
+
+Please write clean code and meaningful commit messages.
+
+License 📜
+
+This project is licensed under the MIT License.
