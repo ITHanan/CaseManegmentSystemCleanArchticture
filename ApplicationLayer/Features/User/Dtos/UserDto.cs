@@ -14,5 +14,7 @@ namespace ApplicationLayer.Features.User.Dtos
 
         public string UserEmail { get; set; } = default!;
 
+        public string PhoneNumber { get; set; } = default!; 
+
     }
 }

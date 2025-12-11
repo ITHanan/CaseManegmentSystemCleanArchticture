@@ -63,7 +63,7 @@ namespace ApiLayer.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var result = await _mediator.Send(new GetAllUserQuery());
-            return Ok(result);
+            return Ok(new { data = result });
         }
 
     }

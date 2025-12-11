@@ -27,7 +27,8 @@ namespace InfrastructureLayer.Repositories
                     Id = u.Id,
                     UserName = u.UserName!,
                     FullName = $"{u.FirstName} {u.LastName}",
-                    UserEmail = u.UserEmail!
+                    UserEmail = u.UserEmail!,
+                    PhoneNumber = u.PhoneNumber
                 })
                 .ToListAsync();
         }
